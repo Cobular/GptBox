@@ -15,9 +15,9 @@ namespace JackboxGPT3.Services
         /// <summary>
         /// Instantiate an <see cref="OpenAICompletionService"/> from the environment.
         /// </summary>
-        public OpenAICompletionService(IConfigurationProvider configuration) : this(Environment.GetEnvironmentVariable("OPENAI_KEY"), configuration) { }
+        public OpenAICompletionService(Services.IConfigurationProvider configuration) : this(Environment.GetEnvironmentVariable("OPENAI_KEY"), configuration) { }
 
-        private OpenAICompletionService(string apiKey, IConfigurationProvider configuration)
+        private OpenAICompletionService(string apiKey, Services.IConfigurationProvider configuration)
         {
             _api = new OpenAIAPI(apiKey, configuration.OpenAIEngine);
         }
@@ -25,7 +25,7 @@ namespace JackboxGPT3.Services
         public async Task<CompletionResponse> CompletePrompt(
             string prompt,
             CompletionParameters completionParameters,
-            Func<CompletionResponse, bool> conditions = null,
+            Func<CompletionResponse, bool>? conditions = null,
             int maxTries = 5,
             string defaultResponse = ""
         ) {
@@ -70,7 +70,7 @@ namespace JackboxGPT3.Services
             CompletionParameters completionParameters,
             Func<CompletionResponse, T> process,
             T defaultResponse,
-            Func<T, bool> conditions = null,
+            Func<T, bool>? conditions = null,
             int maxTries = 5
         ) {
             var processedResult = defaultResponse;

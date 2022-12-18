@@ -12,11 +12,11 @@ namespace JackboxGPT3.Engines
     {
         protected override string Tag => "wordspud";
         
-        public WordSpudEngine(ICompletionService completionService, ILogger logger, WordSpudClient client) : base(completionService, logger, client)
+        public WordSpudEngine(ICompletionService completionService, ILogger logger, WordSpudClient client, string player_name, string room_code) : base(completionService, logger, client)
         {
             JackboxClient.OnSelfUpdate += OnSelfUpdate;
             JackboxClient.OnRoomUpdate += OnRoomUpdate;
-            JackboxClient.Connect();
+            JackboxClient.Connect(player_name, room_code);
         }
 
         private void OnRoomUpdate(object sender, Revision<WordSpudRoom> revision)
@@ -81,5 +81,11 @@ namespace JackboxGPT3.Engines
 
             return result.Text.TrimEnd();
         }
+
+
+        public override GameStatus GetGameStatus()
+    {
+      return JackboxClient.GetGameStatus();
+    }
     }
 }

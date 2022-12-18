@@ -8,9 +8,9 @@ namespace JackboxGPT3.Games.Common
     /// I have no idea what "bc" stands for but it seems several games share this
     /// serialization format. 
     /// </summary>
-    public abstract class BcSerializedClient<TRoom, TPlayer> : BaseJackboxSession<TRoom, TPlayer>
+    public abstract class BcSerializedClient<TRoom, TPlayer> : BaseJackboxClient<TRoom, TPlayer>
     {
-        protected BcSerializedClient(IConfigurationProvider configuration, ILogger logger) : base(configuration, logger)  {  }
+        protected BcSerializedClient(Services.IConfigurationProvider configuration, ILogger logger) : base(configuration, logger)  {  }
         
         protected override string KEY_ROOM => "bc:room";
         protected override string KEY_PLAYER_PREFIX => "bc:customer:";

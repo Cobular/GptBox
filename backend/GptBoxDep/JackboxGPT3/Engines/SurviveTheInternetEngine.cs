@@ -14,16 +14,16 @@ namespace JackboxGPT3.Engines
         protected override string Tag => "survivetheinternet";
 
         private readonly ImageDescriptionProvider _descriptionProvider;
-        private readonly IConfigurationProvider _configuration;
+        private readonly Services.IConfigurationProvider _configuration;
 
-        public SurviveTheInternetEngine(ICompletionService completionService, ILogger logger, IConfigurationProvider configuration,
-            SurviveTheInternetClient client) : base(completionService, logger, client)
+        public SurviveTheInternetEngine(ICompletionService completionService, ILogger logger, Services.IConfigurationProvider configuration,
+            SurviveTheInternetClient client, string player_name, string room_code) : base(completionService, logger, client)
         {
             _configuration = configuration;
             _descriptionProvider = new ImageDescriptionProvider("sti_image_descriptions.json");
             
             JackboxClient.OnSelfUpdate += OnSelfUpdate;
-            JackboxClient.Connect();
+            JackboxClient.Connect(player_name, room_code);
         }
 
         private void OnSelfUpdate(object sender, Revision<SurviveTheInternetPlayer> revision)
@@ -174,5 +174,11 @@ An absurd and ridiculous Instagram caption for a photo of {description}:";
             return match.Success ? match.Value : "Baseball.jpg"; // why not
         }
         #endregion
+
+
+        public override GameStatus GetGameStatus()
+    {
+      return JackboxClient.GetGameStatus();
+    }
     }
 }

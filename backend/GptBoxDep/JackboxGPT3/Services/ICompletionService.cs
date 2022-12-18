@@ -54,7 +54,7 @@ namespace JackboxGPT3.Services
             CompletionParameters completionParameters,
             Func<CompletionResponse, T> process,
             T defaultResponse,
-            Func<T, bool> conditions = null,
+            Func<T, bool>? conditions = null,
             int maxTries = 5
         );
 

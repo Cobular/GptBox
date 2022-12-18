@@ -1,9 +1,13 @@
 using System.Net;
 using Autofac;
+using Autofac.Core;
 using JackboxGPT3.Engines;
 using JackboxGPT3.Games.Common.Models;
+using JackboxGPT3.Games.Common;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
+[JsonConverter(typeof(StringEnumConverter))]
 public enum GameStatus
 {
   Connected,
@@ -16,6 +20,7 @@ public enum GameStatus
 public interface IGptBoxDependency
 {
   void WriteMessage(string message);
+  /// Connects to a game, creating and returning a new game engine if successful
   Task<GameStatus> ConnectToGame(string gameCode);
   // GameStatus DisconnectFromGame();
   // GameStatus GetGameStatus();
@@ -47,17 +52,16 @@ public class GptBoxDependency : IGptBoxDependency
     _logger.LogInformation("GptBox Dependency Initialized");
   }
 
-  public async Task<GameStatus> ConnectToGame(string gameCode)
+  public async Task<GameStatus> ConnectToGame(string room_code)
   {
     var _httpClient = _httpClientFactory.CreateClient();
 
-    var roomCode = config.RoomCode;
     var ecastHost = config.EcastHost;
 
     _logger.LogDebug($"Ecast host: {ecastHost}");
-    _logger.LogInformation($"Trying to join room with code: {roomCode}");
+    _logger.LogInformation($"Trying to join room with code: {room_code}");
 
-    var response = await _httpClient.GetAsync($"https://{ecastHost}/api/v2/rooms/{roomCode}");
+    var response = await _httpClient.GetAsync($"https://{ecastHost}/api/v2/rooms/{room_code}");
 
     try
     {
@@ -78,11 +82,17 @@ public class GptBoxDependency : IGptBoxDependency
     if (!jackboxGpt3Container.IsRegisteredWithKey<IJackboxEngine>(tag))
     {
       _logger.LogError($"Unsupported game: {tag}");
-      return GameStatus.UnsupportedGame;
+      return null;
     }
 
     _logger.LogInformation($"Room found! Starting up {tag} engine...");
-    jackboxGpt3Container.ResolveNamed<IJackboxEngine>(tag);
+
+    Parameter[] constructor_params = new Parameter[2] {
+      new NamedParameter("player_name", "GPT3"),
+      new NamedParameter("room_code", room_code)
+    };
+
+    jackboxGpt3Container.ResolveNamed<IJackboxEngine>(tag, constructor_params);
 
     return GameStatus.Connected;
   }

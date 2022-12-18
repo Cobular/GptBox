@@ -18,12 +18,12 @@ namespace JackboxGPT3.Engines
         private bool _lieLock;
         private bool _truthLock;
 
-        public Fibbage3Engine(ICompletionService completionService, ILogger logger, Fibbage3Client client)
+        public Fibbage3Engine(ICompletionService completionService, ILogger logger, Fibbage3Client client, string player_name, string room_code)
             : base(completionService, logger, client)
         {
             JackboxClient.OnRoomUpdate += OnRoomUpdate;
             JackboxClient.OnSelfUpdate += OnSelfUpdate;
-            JackboxClient.Connect();
+            JackboxClient.Connect(player_name, room_code);
         }
 
         private void OnSelfUpdate(object sender, Revision<Fibbage3Player> revision)
@@ -223,6 +223,11 @@ I think the truth is answer number";
         {
             return prompt.StripHtml();
         }
-        #endregion
+    #endregion
+
+        public override GameStatus GetGameStatus()
+    {
+      return JackboxClient.GetGameStatus();
     }
+  }
 }

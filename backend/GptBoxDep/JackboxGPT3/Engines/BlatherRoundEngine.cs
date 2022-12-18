@@ -19,13 +19,13 @@ namespace JackboxGPT3.Engines
         private readonly List<string> _guessesUsedThisRound = new();
         private bool _writing;
         
-        public BlatherRoundEngine(ICompletionService completionService, ILogger logger, BlatherRoundClient client) : base(completionService, logger, client)
+        public BlatherRoundEngine(ICompletionService completionService, ILogger logger, BlatherRoundClient client, string player_name, string room_code) : base(completionService, logger, client)
         {
             JackboxClient.OnSelfUpdate += OnSelfUpdate;
             JackboxClient.OnWriteNewSentence += OnWriteNewSentence;
             JackboxClient.OnPlayerStartedPresenting += OnPlayerStartedPresenting;
             JackboxClient.OnNewSentence += OnNewSentence;
-            JackboxClient.Connect();
+            JackboxClient.Connect(player_name, room_code);
         }
 
         private void OnNewSentence(object sender, string sentence)
@@ -286,6 +286,12 @@ Guesses:";
             answer = articlesRegex.Replace(answer, "").Trim();
             return answer.TrimEnd('.').TrimQuotes();
         }
+
+
+        public override GameStatus GetGameStatus()
+    {
+      return JackboxClient.GetGameStatus();
+    }
     }
 
     internal enum SentenceResult

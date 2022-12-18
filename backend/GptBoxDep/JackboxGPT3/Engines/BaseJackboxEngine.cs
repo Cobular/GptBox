@@ -20,6 +20,8 @@ namespace JackboxGPT3.Engines
             _logger = logger;
         }
 
+        public abstract GameStatus GetGameStatus();
+        
         // ReSharper disable UnusedMember.Global
         protected void LogWarning(string text)
         {

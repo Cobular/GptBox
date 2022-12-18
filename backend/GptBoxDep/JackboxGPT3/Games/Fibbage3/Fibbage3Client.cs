@@ -7,7 +7,7 @@ namespace JackboxGPT3.Games.Fibbage3
 {
     public class Fibbage3Client : BcSerializedClient<Fibbage3Room, Fibbage3Player>
     {
-        public Fibbage3Client(IConfigurationProvider configuration, ILogger logger) : base(configuration, logger) { }
+        public Fibbage3Client(Services.IConfigurationProvider configuration, ILogger logger) : base(configuration, logger) { }
 
         public void ChooseCategory(int index)
         {

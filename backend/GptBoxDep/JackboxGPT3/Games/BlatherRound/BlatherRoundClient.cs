@@ -22,9 +22,9 @@ namespace JackboxGPT3.Games.BlatherRound
         
         public string CurrentCategory { get; private set; }
         public List<string> CurrentSentences { get; private set; }
-        public Sentence CurrentSentence { get; private set; }
+        public Sentence? CurrentSentence { get; private set; }
 
-        public BlatherRoundClient(IConfigurationProvider configuration, ILogger logger) : base(configuration, logger)
+        public BlatherRoundClient(Services.IConfigurationProvider configuration, ILogger logger) : base(configuration, logger)
         {
             CurrentSentences = new List<string>();
             OnSelfUpdate += PreSelfUpdate;
