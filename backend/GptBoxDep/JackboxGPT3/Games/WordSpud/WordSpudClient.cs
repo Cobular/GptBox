@@ -1,13 +1,12 @@
 using JackboxGPT3.Games.Common;
 using JackboxGPT3.Games.WordSpud.Models;
 using JackboxGPT3.Services;
-using Serilog;
 
 namespace JackboxGPT3.Games.WordSpud
 {
     public class WordSpudClient : BcSerializedClient<WordSpudRoom, WordSpudPlayer>
     {
-        public WordSpudClient(IConfigurationProvider configuration, ILogger logger) : base(configuration, logger) { }
+        public WordSpudClient(Services.IConfigurationProvider configuration, ILogger logger) : base(configuration, logger) { }
 
         public void SubmitSpud(string spud)
         {

@@ -12,9 +12,9 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly JackboxGPT3.IJackboxGPT3Dependency _jackbox;
+    private readonly IGptBoxDependency _jackbox;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, JackboxGPT3.IJackboxGPT3Dependency jackbox)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IGptBoxDependency jackbox)
     {
         _logger = logger;
         _jackbox = jackbox;

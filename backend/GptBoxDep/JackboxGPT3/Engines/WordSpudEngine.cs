@@ -4,7 +4,6 @@ using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Games.WordSpud;
 using JackboxGPT3.Games.WordSpud.Models;
 using JackboxGPT3.Services;
-using Serilog;
 using static JackboxGPT3.Services.ICompletionService;
 
 namespace JackboxGPT3.Engines

@@ -5,8 +5,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
 // Inject the jackbox stuff
-builder.Services.AddSingleton<JackboxGPT3.IJackboxGPT3Dependency, JackboxGPT3.JackboxGPT3Dependency>();
+builder.Services.AddSingleton<IGptBoxDependency, GptBoxDependency>();
 
 var app = builder.Build();
 

@@ -1,6 +1,5 @@
 ﻿using JackboxGPT3.Games.Common;
 using JackboxGPT3.Services;
-using Serilog;
 
 namespace JackboxGPT3.Engines
 {
@@ -24,27 +23,27 @@ namespace JackboxGPT3.Engines
         // ReSharper disable UnusedMember.Global
         protected void LogWarning(string text)
         {
-            _logger.Warning($"[{Tag}] {text}");
+            _logger.LogWarning($"[{Tag}] {text}");
         }
 
         protected void LogError(string text)
         {
-            _logger.Error($"[{Tag}] {text}");
+            _logger.LogError($"[{Tag}] {text}");
         }
 
         protected void LogDebug(string text)
         {
-            _logger.Debug($"[{Tag}] {text}");
+            _logger.LogDebug($"[{Tag}] {text}");
         }
 
         protected void LogVerbose(string text)
         {
-            _logger.Verbose($"[{Tag}] {text}");
+            _logger.LogTrace($"[{Tag}] {text}");
         }
 
         protected void LogInfo(string text)
         {
-            _logger.Information($"[{Tag}] {text}");
+            _logger.LogInformation($"[{Tag}] {text}");
         }
         // ReSharper restore UnusedMember.Global
     }

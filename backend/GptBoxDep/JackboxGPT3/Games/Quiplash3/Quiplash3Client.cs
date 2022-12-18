@@ -2,7 +2,6 @@
 using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Games.Quiplash3.Models;
 using JackboxGPT3.Services;
-using Serilog;
 
 namespace JackboxGPT3.Games.Quiplash3
 {

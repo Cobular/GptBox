@@ -7,7 +7,6 @@ using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Serilog;
 using Websocket.Client;
 using Websocket.Client.Models;
 
@@ -25,10 +24,10 @@ namespace JackboxGPT3.Games.Common
         protected abstract string KEY_PLAYER_PREFIX { get; }
 
         public event EventHandler<ClientWelcome> PlayerStateChanged;
-        public event EventHandler<Revision<TRoom>> OnRoomUpdate;
+        public event EventHandler<Revision<TRoom>> OnRoomUpdate?;
         public event EventHandler<Revision<TPlayer>> OnSelfUpdate;
 
-        private readonly IConfigurationProvider _configuration;
+        private readonly Services.IConfigurationProvider _configuration;
         private readonly ILogger _logger;
 
         private Guid _playerId = Guid.NewGuid();
@@ -41,7 +40,7 @@ namespace JackboxGPT3.Games.Common
 
         public GameState<TRoom, TPlayer> GameState => _gameState;
 
-        protected BaseJackboxClient(IConfigurationProvider configuration, ILogger logger)
+        protected BaseJackboxClient(Services.IConfigurationProvider configuration, ILogger logger)
         {
             _configuration = configuration;
             _logger = logger;
@@ -60,7 +59,7 @@ namespace JackboxGPT3.Games.Common
 
             var url = new Uri($"wss://{_configuration.EcastHost}/api/v2/rooms/{_configuration.RoomCode}/play?{bootstrap.AsQueryString()}");
 
-            _logger.Debug($"Trying to connect to ecast websocket with url: {url}");
+            _logger.LogDebug($"Trying to connect to ecast websocket with url: {url}");
 
             _webSocket = new WebsocketClient(url, () =>
             {
@@ -129,19 +128,19 @@ namespace JackboxGPT3.Games.Common
 
         private void WsConnected(ReconnectionInfo inf)
         {
-            _logger.Information("Connected to Jackbox games services.");
+            _logger.LogInformation("Connected to Jackbox games services.");
         }
 
         private void WsDisconnected(DisconnectionInfo inf)
         {
-            _logger.Information("Disconnected from Jackbox games services.");
+            _logger.LogInformation("Disconnected from Jackbox games services.");
             _exitEvent?.Set();
         }
 
         private void HandleClientWelcome(ClientWelcome cw)
         {
             _gameState.PlayerId = cw.Id;
-            _logger.Debug($"Client welcome message received. Player ID: {_gameState.PlayerId}");
+            _logger.LogDebug($"Client welcome message received. Player ID: {_gameState.PlayerId}");
         }
 
         protected void WsSend<T>(string opCode, T body)

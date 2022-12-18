@@ -1,5 +1,4 @@
 using JackboxGPT3.Services;
-using Serilog;
 
 namespace JackboxGPT3.Games.Common
 {
@@ -9,7 +8,7 @@ namespace JackboxGPT3.Games.Common
     /// I have no idea what "bc" stands for but it seems several games share this
     /// serialization format. 
     /// </summary>
-    public abstract class BcSerializedClient<TRoom, TPlayer> : BaseJackboxClient<TRoom, TPlayer>
+    public abstract class BcSerializedClient<TRoom, TPlayer> : BaseJackboxSession<TRoom, TPlayer>
     {
         protected BcSerializedClient(IConfigurationProvider configuration, ILogger logger) : base(configuration, logger)  {  }
         

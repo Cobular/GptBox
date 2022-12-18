@@ -7,7 +7,6 @@ using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Games.Fibbage3;
 using JackboxGPT3.Games.Fibbage3.Models;
 using JackboxGPT3.Services;
-using Serilog;
 using static JackboxGPT3.Services.ICompletionService;
 
 namespace JackboxGPT3.Engines

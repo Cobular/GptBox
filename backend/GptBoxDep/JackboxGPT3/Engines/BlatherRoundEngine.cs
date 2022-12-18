@@ -8,7 +8,6 @@ using JackboxGPT3.Games.BlatherRound;
 using JackboxGPT3.Games.BlatherRound.Models;
 using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Services;
-using Serilog;
 
 namespace JackboxGPT3.Engines
 {

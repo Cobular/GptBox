@@ -6,7 +6,6 @@ using JackboxGPT3.Games.Common;
 using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Services;
 using Newtonsoft.Json;
-using Serilog;
 
 namespace JackboxGPT3.Games.BlatherRound
 {
