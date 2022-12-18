@@ -1,3 +1,5 @@
+using OpenAI.GPT3.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+
 
 // Inject the jackbox stuff
 builder.Services.AddSingleton<IGptBoxDependency, GptBoxDependency>();

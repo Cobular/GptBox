@@ -70,12 +70,12 @@ namespace JackboxGPT3.Engines
 
             var result = await CompletionService.CompletePrompt(prompt, new CompletionParameters
             {
-                Temperature = 0.8,
+                Temperature = 0.8f,
                 MaxTokens = 16,
                 TopP = 1,
-                FrequencyPenalty = 0.3,
-                PresencePenalty = 0.3,
-                StopSequences = new[] { "\n" }
+                FrequencyPenalty = 0.3f,
+                PresencePenalty = 0.3f,
+                StopSequences = "\n"
             }, completion => completion.Text.Trim() != "" && completion.Text.Length <= 32,
                 defaultResponse: ".");
 

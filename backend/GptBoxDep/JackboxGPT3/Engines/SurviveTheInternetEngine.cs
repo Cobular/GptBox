@@ -95,12 +95,12 @@ A:";
             
             var result = await CompletionService.CompletePrompt(prompt, new ICompletionService.CompletionParameters
                 {
-                    Temperature = 0.7,
+                    Temperature = 0.7f,
                     MaxTokens = 32,
                     TopP = 1,
-                    FrequencyPenalty = 0.3,
-                    PresencePenalty = 0.2,
-                    StopSequences = new[] { "\n" }
+                    FrequencyPenalty = 0.3f,
+                    PresencePenalty = 0.2f,
+                    StopSequences = "\n"
                 }, completion => completion.Text.Length <= maxLength,
                 defaultResponse: "I dunno");
 
@@ -124,12 +124,12 @@ A:";
             
             var result = await CompletionService.CompletePrompt(prompt, new ICompletionService.CompletionParameters
                 {
-                    Temperature = 0.7,
+                    Temperature = 0.7f,
                     MaxTokens = 32,
                     TopP = 1,
-                    FrequencyPenalty = 0.3,
-                    PresencePenalty = 0.2,
-                    StopSequences = new[] { "\n" }
+                    FrequencyPenalty = 0.3f,
+                    PresencePenalty = 0.2f,
+                    StopSequences = "\n"
                 }, completion => completion.Text.Length <= maxLength,
                 defaultResponse: "I dunno");
 
@@ -155,12 +155,12 @@ An absurd and ridiculous Instagram caption for a photo of {description}:";
             
             var result = await CompletionService.CompletePrompt(prompt, new ICompletionService.CompletionParameters
                 {
-                    Temperature = 0.7,
+                    Temperature = 0.7f,
                     MaxTokens = 32,
                     TopP = 1,
-                    FrequencyPenalty = 0.3,
-                    PresencePenalty = 0.2,
-                    StopSequences = isInstruct ? Array.Empty<string>() : new[] { "\n" }
+                    FrequencyPenalty = 0.3f,
+                    PresencePenalty = 0.2f,
+                    StopSequences = isInstruct ? null : "\n"
                 }, completion => completion.Text.Length <= maxLength,
                 defaultResponse: "I dunno");
 

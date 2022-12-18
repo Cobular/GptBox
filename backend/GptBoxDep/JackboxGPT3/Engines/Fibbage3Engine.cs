@@ -132,11 +132,11 @@ A:";
 
             var result = await CompletionService.CompletePrompt(prompt, new CompletionParameters
             {
-                Temperature = 0.8,
+                Temperature = 0.8f,
                 MaxTokens = 16,
                 TopP = 1,
-                FrequencyPenalty = 0.2,
-                StopSequences = new[] { "\n" }
+                FrequencyPenalty = 0.2f,
+                StopSequences = "\n"
             }, completion => !completion.Text.Contains("___") && completion.Text.Length <= 45,
                 defaultResponse: "Default Response!");
 
@@ -161,11 +161,11 @@ A:";
 
             var result = await CompletionService.CompletePrompt(prompt, new CompletionParameters
                 {
-                    Temperature = 0.8,
+                    Temperature = 0.8f,
                     MaxTokens = 16,
                     TopP = 1,
-                    FrequencyPenalty = 0.2,
-                    StopSequences = new[] { "\n" }
+                    FrequencyPenalty = 0.2f,
+                    StopSequences = "\n"
                 }, completion =>
                 {
                     try
@@ -200,7 +200,7 @@ I think the truth is answer number";
                 Temperature = 1,
                 MaxTokens = 1,
                 TopP = 1,
-                StopSequences = new[] { "\n" }
+                StopSequences = "\n"
             }, completion =>
             {
                 try

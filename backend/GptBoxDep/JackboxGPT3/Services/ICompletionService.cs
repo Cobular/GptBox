@@ -20,19 +20,19 @@ namespace JackboxGPT3.Services
             [JsonProperty("max_tokens")]
             public int MaxTokens;
             [JsonProperty("temperature")]
-            public double Temperature;
+            public float Temperature;
             [JsonProperty("top_p")]
-            public double TopP;
+            public float TopP;
             [JsonProperty("logprobs")]
             public int LogProbs;
             [JsonProperty("echo")]
             public bool Echo;
             [JsonProperty("presence_penalty")]
-            public double PresencePenalty;
+            public float PresencePenalty;
             [JsonProperty("frequency_penalty")]
-            public double FrequencyPenalty;
+            public float FrequencyPenalty;
             [JsonProperty("stop")]
-            public string[] StopSequences;
+            public string? StopSequences;
         }
 
         public struct SearchResponse

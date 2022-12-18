@@ -259,12 +259,13 @@ Guesses:";
                 prompt,
                 new ICompletionService.CompletionParameters
                 {
-                    Temperature = 0.8,
+                    Temperature = 0.8f,
                     MaxTokens = 64,
                     TopP = 1,
-                    FrequencyPenalty = 0.3,
-                    PresencePenalty = 0.2,
-                    StopSequences = new[] { "\n", "###" }
+                    FrequencyPenalty = 0.3f,
+                    PresencePenalty = 0.2f,
+                    /// TODO: Not sure what to do about this, the library wants a string but the api wants a string or an array..
+                    StopSequences = "['\n', '###']"
                 },
                 completion => completion.Text.Trim().Split(";").Select(CleanAnswer).Where(answer =>
                     answer != "" && answer.Length <= 40 && !_guessesUsedThisRound.Contains(answer)).ToList(),

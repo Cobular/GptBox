@@ -123,12 +123,12 @@ Funny Answer:";
 
       var result = await CompletionService.CompletePrompt(prompt, new ICompletionService.CompletionParameters
       {
-        Temperature = 0.5,
+        Temperature = 0.5f,
         MaxTokens = 16,
         TopP = 1,
-        FrequencyPenalty = 0.2,
-        PresencePenalty = 0.1,
-        StopSequences = new[] { "\n" }
+        FrequencyPenalty = 0.2f,
+        PresencePenalty = 0.1f,
+        StopSequences = "\n"
       }, completion => !completion.Text.Contains("___") && completion.Text.Length <= 45,
           defaultResponse: "⁇");
 
@@ -169,12 +169,12 @@ Funny Answer:";
 
       var result = await CompletionService.CompletePrompt(prompt, new ICompletionService.CompletionParameters
       {
-        Temperature = 0.7,
+        Temperature = 0.7f,
         MaxTokens = 32,
         TopP = 1,
-        FrequencyPenalty = 0.2,
-        PresencePenalty = 0.1,
-        StopSequences = new[] { "\n" }
+        FrequencyPenalty = 0.2f,
+        PresencePenalty = 0.1f,
+        StopSequences = "\n"
       }, completion => completion.Text.Split("|").Length == 3 && !completion.Text.Contains("___") && completion.Text.Length <= 45,
           defaultResponse: "Oops|GPT-3 didn't work|Sigh");
 
@@ -195,7 +195,7 @@ Funny Answer:";
         Temperature = 1,
         MaxTokens = 1,
         TopP = 1,
-        StopSequences = new[] { "\n" }
+        StopSequences = "\n"
       }, completion =>
       {
         try

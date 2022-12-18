@@ -6,5 +6,6 @@
         
         public abstract string OpenAIEngine { get; set; }
         public abstract string LogLevel { get; set; }
-    }
+        public abstract string OpenAIKey { get; }
+  }
 }
