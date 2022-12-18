@@ -13,14 +13,17 @@ namespace JackboxGPT3.Engines
         
         private readonly ILogger _logger;
 
+    public event EventHandler OnDisconnect;
+
+    public abstract GameStatus GetGameStatus();
+
         protected BaseJackboxEngine(ICompletionService completionService, ILogger logger, TClient client)
         {
             CompletionService = completionService;
             JackboxClient = client;
+            JackboxClient.OnDisconnect += (sender, args) => OnDisconnect?.Invoke(this, EventArgs.Empty);
             _logger = logger;
         }
-
-        public abstract GameStatus GetGameStatus();
         
         // ReSharper disable UnusedMember.Global
         protected void LogWarning(string text)

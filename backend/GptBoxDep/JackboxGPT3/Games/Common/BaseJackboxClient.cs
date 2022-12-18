@@ -26,6 +26,7 @@ namespace JackboxGPT3.Games.Common
     public event EventHandler<ClientWelcome>? PlayerStateChanged;
     public event EventHandler<Revision<TRoom>>? OnRoomUpdate;
     public event EventHandler<Revision<TPlayer>>? OnSelfUpdate;
+    public event EventHandler? OnDisconnect;
 
     private readonly Services.IConfigurationProvider _configuration;
     private readonly ILogger _logger;
@@ -133,6 +134,7 @@ namespace JackboxGPT3.Games.Common
     {
       _logger.LogInformation("Disconnected from Jackbox games services.");
       _exitEvent?.Set();
+      OnDisconnect?.Invoke(this, EventArgs.Empty);
     }
 
     private void HandleClientWelcome(ClientWelcome cw)

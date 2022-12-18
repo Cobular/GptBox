@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Autofac;
 using JackboxGPT3.Engines;
 using JackboxGPT3.Games.BlatherRound;
+using JackboxGPT3.Games.Common;
 using JackboxGPT3.Games.Common.Models;
 using JackboxGPT3.Games.Fibbage3;
 using JackboxGPT3.Games.Quiplash3;

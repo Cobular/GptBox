@@ -9,6 +9,6 @@ namespace JackboxGPT3.Games.Common
     {
         public void Connect(string player_name, string room_code);
         public GameStatus GetGameStatus();
-        public event EventHandler<ClientWelcome> PlayerStateChanged;
+        public event EventHandler OnDisconnect;
     }
 }

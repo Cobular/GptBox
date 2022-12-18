@@ -19,9 +19,11 @@ public enum GameStatus
 // The public interface of this dependency
 public interface IGptBoxDependency
 {
-  void WriteMessage(string message);
   /// Connects to a game, creating and returning a new game engine if successful
-  Task<GameStatus> ConnectToGame(string gameCode);
+  Task<Tuple<GameStatus, IJackboxEngine?>> ConnectToGame(string gameCode);
+
+  public Dictionary<string, IJackboxEngine> RunningGames { get; }
+
   // GameStatus DisconnectFromGame();
   // GameStatus GetGameStatus();
 }
@@ -34,6 +36,8 @@ public class GptBoxDependency : IGptBoxDependency
 
   private readonly GptBoxOptions config;
   private readonly IContainer jackboxGpt3Container;
+
+  private readonly Dictionary<string, IJackboxEngine> _RunningGames = new();
 
   public GptBoxDependency(ILogger<GptBoxDependency> logger, IConfiguration configuration, IHttpClientFactory httpClientFactory)
   {
@@ -52,7 +56,9 @@ public class GptBoxDependency : IGptBoxDependency
     _logger.LogInformation("GptBox Dependency Initialized");
   }
 
-  public async Task<GameStatus> ConnectToGame(string room_code)
+  public Dictionary<string, IJackboxEngine> RunningGames => _RunningGames;
+
+  public async Task<Tuple<GameStatus, IJackboxEngine?>> ConnectToGame(string room_code)
   {
     var _httpClient = _httpClientFactory.CreateClient();
 
@@ -73,7 +79,7 @@ public class GptBoxDependency : IGptBoxDependency
         throw;
 
       _logger.LogError("Room not found.");
-      return GameStatus.RoomNotFound;
+      return Tuple.Create<GameStatus, IJackboxEngine?>(GameStatus.RoomNotFound, null);
     }
 
     var roomResponse = JsonConvert.DeserializeObject<GetRoomResponse>(await response.Content.ReadAsStringAsync());
@@ -82,7 +88,7 @@ public class GptBoxDependency : IGptBoxDependency
     if (!jackboxGpt3Container.IsRegisteredWithKey<IJackboxEngine>(tag))
     {
       _logger.LogError($"Unsupported game: {tag}");
-      return null;
+      return Tuple.Create<GameStatus, IJackboxEngine?>(GameStatus.UnsupportedGame, null);
     }
 
     _logger.LogInformation($"Room found! Starting up {tag} engine...");
@@ -92,13 +98,8 @@ public class GptBoxDependency : IGptBoxDependency
       new NamedParameter("room_code", room_code)
     };
 
-    jackboxGpt3Container.ResolveNamed<IJackboxEngine>(tag, constructor_params);
+    IJackboxEngine? engine = jackboxGpt3Container.ResolveNamed<IJackboxEngine>(tag, constructor_params);
 
-    return GameStatus.Connected;
-  }
-
-  public void WriteMessage(string message)
-  {
-    _logger.LogInformation($"JackboxGPT3Dependency.WriteMessage Message: {message}");
+    return Tuple.Create(GameStatus.Connected, engine);
   }
 }
