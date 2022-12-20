@@ -5,6 +5,7 @@ import type { Actions } from './$types';
 
 export const actions: Actions = {
 	default: async ({ request }) => {
+    console.log("Recieved request to join game")
 		const data = await request.formData();
 		const room_code = data.get('room_code');
 		const username = data.get('username');
