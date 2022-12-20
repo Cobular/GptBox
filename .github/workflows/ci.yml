@@ -35,4 +35,4 @@ jobs:
           context: ./backend
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/Cobular/GptBox:backend-latest
+          tags: ghcr.io/cobular/gptbox:backend-latest
