@@ -1,7 +1,14 @@
 <script>
 	import '../app.postcss';
-</script>
+	import { themeChange } from 'theme-change'
+	import { browser } from '$app/environment';
+	import Page from './+page.svelte';
+	import { onMount } from 'svelte';
 
+	onMount(() => {
+		themeChange(false)
+	})
+</script>
 
 <div class="hero min-h-screen bg-base-200">
 	<div class="hero-content text-center">
@@ -17,6 +24,8 @@
 						<slot />
 					</div>
 			</div>
+			<button class="pt-6 pb-4" data-toggle-theme="emerald,dracula">change theme</button>
+			<p class="pb-2">Made with 🧡 by <a class="link hover:text-secondary transition-colors[" href="https://cobular.com">Cobular</a></p>
 		</div>
 	</div>
 </div>
