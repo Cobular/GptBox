@@ -21,7 +21,7 @@ namespace JackboxGPT3.Services
         public OpenAICompletionService(Services.IConfigurationProvider configuration)
         {
             var key = Environment.GetEnvironmentVariable("OPENAI_KEY") ?? configuration.OpenAIKey;
-            Console.WriteLine($"Instantiating OpenAICompletionService, {key}");
+            // Console.WriteLine($"Instantiating OpenAICompletionService, {key}");
             _api = new OpenAIService(new OpenAiOptions()
             {
                 ApiKey = key,

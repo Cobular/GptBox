@@ -15,6 +15,10 @@ namespace JackboxGPT3.Engines
 
     public event EventHandler OnDisconnect;
 
+    public void Disconnect() {
+      OnDisconnect?.Invoke(this, EventArgs.Empty);
+    }
+
     public abstract GameStatus GetGameStatus();
 
         protected BaseJackboxEngine(ICompletionService completionService, ILogger logger, TClient client)

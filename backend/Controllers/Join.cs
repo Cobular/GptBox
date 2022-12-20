@@ -5,31 +5,17 @@ using Newtonsoft.Json;
 namespace GptBoxApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class GptBoxController : ControllerBase
+[Route("join")]
+public class JoinController : BaseGptController
 {
-    private static readonly string[] Summaries = new[]
+    public JoinController(ILogger<JoinController> logger, IGptBoxDependency jackbox) : base(logger, jackbox)
     {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-    private readonly Dictionary<string, IJackboxEngine> _running_games;
-
-    private readonly ILogger<GptBoxController> _logger;
-    private readonly IGptBoxDependency _jackbox;
-
-    public GptBoxController(ILogger<GptBoxController> logger, IGptBoxDependency jackbox)
-    {
-        _logger = logger;
-        _logger.LogInformation("GptBoxController created!");
-        _jackbox = jackbox;
-        _running_games = _jackbox.RunningGames;
     }
 
     [HttpPost(Name = "JoinGame")]
-    public async Task<IActionResult> Post([FromQuery(Name = "gameCode")] string game_code)
+    public async Task<IActionResult> Post([FromQuery(Name = "room_code")] string room_code)
     {
-        var game_code_clean = game_code.ToUpper().Trim();
+        var game_code_clean = room_code.ToUpper().Trim();
 
         if (_running_games.ContainsKey(game_code_clean))
         {

@@ -21,6 +21,7 @@ public interface IGptBoxDependency
 {
   /// Connects to a game, creating and returning a new game engine if successful
   Task<Tuple<GameStatus, IJackboxEngine?>> ConnectToGame(string gameCode);
+  Task<string?> GetGameType(string room_code);
 
   public Dictionary<string, IJackboxEngine> RunningGames { get; }
 
@@ -32,7 +33,7 @@ public interface IGptBoxDependency
 public class GptBoxDependency : IGptBoxDependency
 {
   private readonly ILogger<GptBoxDependency> _logger;
-  private readonly IHttpClientFactory _httpClientFactory;
+  private readonly HttpClient _httpClient;
 
   private readonly GptBoxOptions config;
   private readonly IContainer jackboxGpt3Container;
@@ -42,7 +43,7 @@ public class GptBoxDependency : IGptBoxDependency
   public GptBoxDependency(ILogger<GptBoxDependency> logger, IConfiguration configuration, IHttpClientFactory httpClientFactory)
   {
     _logger = logger;
-    _httpClientFactory = httpClientFactory;
+    _httpClient = httpClientFactory.CreateClient();
 
     var _config = configuration.GetRequiredSection(GptBoxOptions.GptBox).Get<GptBoxOptions>();
     if (_config == null)
@@ -58,16 +59,11 @@ public class GptBoxDependency : IGptBoxDependency
 
   public Dictionary<string, IJackboxEngine> RunningGames => _RunningGames;
 
-  public async Task<Tuple<GameStatus, IJackboxEngine?>> ConnectToGame(string room_code)
-  {
-    var _httpClient = _httpClientFactory.CreateClient();
-
-    var ecastHost = config.EcastHost;
-
-    _logger.LogDebug($"Ecast host: {ecastHost}");
+  public async Task<string?> GetGameType(string room_code) { 
+    _logger.LogDebug($"Ecast host: {config.EcastHost}");
     _logger.LogInformation($"Trying to join room with code: {room_code}");
 
-    var response = await _httpClient.GetAsync($"https://{ecastHost}/api/v2/rooms/{room_code}");
+    var response = await _httpClient.GetAsync($"https://{config.EcastHost}/api/v2/rooms/{room_code}");
 
     try
     {
@@ -76,14 +72,21 @@ public class GptBoxDependency : IGptBoxDependency
     catch (HttpRequestException ex)
     {
       if (ex.StatusCode != HttpStatusCode.NotFound)
-        throw;
+        return null;
 
       _logger.LogError("Room not found.");
-      return Tuple.Create<GameStatus, IJackboxEngine?>(GameStatus.RoomNotFound, null);
+      return null;
     }
 
-    var roomResponse = JsonConvert.DeserializeObject<GetRoomResponse>(await response.Content.ReadAsStringAsync());
-    var tag = roomResponse.Room.AppTag;
+    return JsonConvert.DeserializeObject<GetRoomResponse>(await response.Content.ReadAsStringAsync()).Room.AppTag;
+  }
+
+  public async Task<Tuple<GameStatus, IJackboxEngine?>> ConnectToGame(string room_code)
+  {
+    var tag = await GetGameType(room_code);
+
+    if (tag == null)
+      return Tuple.Create<GameStatus, IJackboxEngine?>(GameStatus.RoomNotFound, null);
 
     if (!jackboxGpt3Container.IsRegisteredWithKey<IJackboxEngine>(tag))
     {
