@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { PageData, ActionData, RouteParams } from './$types';
 
 	export let data: PageData;
@@ -10,6 +11,14 @@
 
 	const game_type = data?.game_type;
 	const room_code = data?.room_code;
+
+  function track_event() {
+    umami.trackEvent("start-game", {game_type, room_code})
+  }
+
+  onMount(() => {
+    track_event()
+  })
 </script>
 
 <h2 class="text-2xl font-bold">Status: In-game</h2>
