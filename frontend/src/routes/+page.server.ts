@@ -20,6 +20,8 @@ export const actions: Actions = {
     server_url.pathname = '/join';
     server_url.searchParams.set('room_code', room_code);
 
+    console.log("Sending request to server: " + server_url.toString());
+
     try{
       const res = await fetch(server_url, {
         method: 'POST',

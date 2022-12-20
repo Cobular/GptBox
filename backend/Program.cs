@@ -18,7 +18,11 @@ builder.Services.AddCors(options =>
                     {
                       policy.WithOrigins("http://localhost:5011",
                                          "http://localhost:5173",
-                                         "http://localhost:5173/"
+                                         "http://localhost:5173/",
+                                         "https://gptbox.cobular.com",
+                                         "https://gptbox.cobular.com/",
+                                         "https://gpt-box.vercel.app",
+                                         "https://gpt-box.vercel.app/"
                                          );
                     });
 });
