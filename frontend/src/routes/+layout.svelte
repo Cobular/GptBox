@@ -25,7 +25,7 @@
 					</div>
 			</div>
 			<button class="pt-6 pb-4" data-toggle-theme="emerald,dracula">change theme</button>
-			<p class="pb-2">Made with 🧡 by <a class="link hover:text-secondary transition-colors[" href="https://cobular.com">Cobular</a></p>
+			<p class="pb-2">Made with 🧡 by <a class="link hover:text-secondary transition-colors[" href="https://cobular.com">Cobular</a>, based on work by <a href="https://github.com/tjhorner/JackboxGPT3">TJ Horner</a></p>
 		</div>
 	</div>
 </div>
